@@ -1,4 +1,4 @@
-# constructive-media-ultralytics
+# media-engine-ultralytics
 
 [Ultralytics YOLO](https://github.com/ultralytics/ultralytics) detectors for
 [Constructive Media](https://github.com/constructive-io/constructive-media).

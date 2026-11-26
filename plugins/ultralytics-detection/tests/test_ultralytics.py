@@ -16,7 +16,7 @@ from unittest import mock
 _CONFIG = tempfile.TemporaryDirectory()
 os.environ.setdefault("YOLO_CONFIG_DIR", _CONFIG.name)
 
-import constructive_media_ultralytics as plugin  # noqa: E402
+import media_engine_ultralytics as plugin  # noqa: E402
 from constructive_media import adapters, detection  # noqa: E402
 from constructive_media.adapters import Registry  # noqa: E402
 from constructive_media.detection import Detection, Detector  # noqa: E402
@@ -85,7 +85,7 @@ class Plugged(unittest.TestCase):
 
     def test_the_engine_finds_it_once_installed(self):
         found = adapters.registry().describe("detection", "ultralytics")
-        self.assertEqual((found.license, found.origin), ("AGPL-3.0-only", "constructive-media-ultralytics"))
+        self.assertEqual((found.license, found.origin), ("AGPL-3.0-only", "media-engine-ultralytics"))
         self.assertIsInstance(detection.detector("ultralytics"), plugin.UltralyticsDetector)
 
     def test_it_never_becomes_the_default(self):

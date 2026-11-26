@@ -8,7 +8,7 @@ from pathlib import Path
 import numpy as np
 from pedalboard.io import AudioFile
 
-import constructive_media_pedalboard as plugin
+import media_engine_pedalboard as plugin
 from constructive_media import adapters, effects
 from constructive_media.adapters import Registry
 from constructive_media.effects import REVERB_PRESETS, EffectBackend, EffectError, Effects
@@ -64,7 +64,7 @@ class Plugged(unittest.TestCase):
 
     def test_the_engine_finds_it_once_installed(self):
         found = adapters.registry().describe("effects", "pedalboard")
-        self.assertEqual((found.license, found.origin), ("GPL-3.0-only", "constructive-media-pedalboard"))
+        self.assertEqual((found.license, found.origin), ("GPL-3.0-only", "media-engine-pedalboard"))
         self.assertIsInstance(effects.backend("pedalboard"), plugin.PedalboardEffects)
 
     def test_it_never_becomes_the_default(self):

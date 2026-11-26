@@ -39,7 +39,7 @@ def adapters() -> list[Adapter]:
         Adapter(
             slot="detection",
             name="ultralytics",
-            factory=lazy("constructive_media_ultralytics:UltralyticsDetector"),
+            factory=lazy("media_engine_ultralytics:UltralyticsDetector"),
             license=LICENSE,
             summary="Objects and people with Ultralytics YOLO models",
         )

@@ -3,7 +3,7 @@ requires = ["setuptools>=77"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "constructive-media-ultralytics"
+name = "media-engine-ultralytics"
 dynamic = ["version"]
 description = "Ultralytics YOLO detectors for Constructive Media."
 readme = "README.md"
@@ -16,13 +16,13 @@ keywords = ["constructive", "media", "video", "detection", "yolo", "ultralytics"
 dependencies = ["constructive-media", "ultralytics>=8.3"]
 
 [project.entry-points."constructive_media.adapters"]
-ultralytics = "constructive_media_ultralytics:adapters"
+ultralytics = "media_engine_ultralytics:adapters"
 
 [project.urls]
-Homepage = "https://github.com/constructive-io/constructive-media-plugins"
+Homepage = "https://github.com/constructive-io/media-engine-plugins"
 
 [tool.setuptools]
-packages = ["constructive_media_ultralytics"]
+packages = ["media_engine_ultralytics"]
 
 [tool.setuptools.dynamic]
-version = { attr = "constructive_media_ultralytics.__version__" }
+version = { attr = "media_engine_ultralytics.__version__" }

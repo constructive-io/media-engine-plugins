@@ -1,4 +1,4 @@
-# constructive-media-plugins
+# media-engine-plugins
 
 <p align="center" width="100%">
   <img height="250" src="https://raw.githubusercontent.com/constructive-io/constructive/refs/heads/main/assets/outline-logo.svg" alt="Constructive" />
@@ -25,8 +25,8 @@ Install the engine first, then the plugins you want, into the same environment:
 
 ```sh
 pip install "./constructive-media[all]"
-pip install ./constructive-media-plugins/plugins/pedalboard-effects
-pip install ./constructive-media-plugins/plugins/ultralytics-detection
+pip install ./media-engine-plugins/plugins/pedalboard-effects
+pip install ./media-engine-plugins/plugins/ultralytics-detection
 
 me adapters
 ```
@@ -36,8 +36,8 @@ where it came from:
 
 ```
 effects: audio effects
- * ffmpeg       MIT           builtin                        Reverb, delay, compression and gain through the ffmpeg program
-   pedalboard   GPL-3.0-only  constructive-media-pedalboard  Reverb, delay, compression and gain with pedalboard's studio effects
+ * ffmpeg       MIT           builtin                  Reverb, delay, compression and gain through the ffmpeg program
+   pedalboard   GPL-3.0-only  media-engine-pedalboard  Reverb, delay, compression and gain with pedalboard's studio effects
 ```
 
 ## Use

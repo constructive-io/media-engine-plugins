@@ -1,4 +1,4 @@
-# constructive-media-pedalboard
+# media-engine-pedalboard
 
 Studio effects for [Constructive Media](https://github.com/constructive-io/constructive-media),
 through Spotify's [pedalboard](https://github.com/spotify/pedalboard).

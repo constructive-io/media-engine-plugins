@@ -1,4 +1,4 @@
-# constructive-media-plugins — agent guide
+# media-engine-plugins — agent guide
 
 Adapters for [Constructive Media](https://github.com/constructive-io/constructive-media)
 whose tools are not MIT, Apache-2.0 or BSD licensed. See [README.md](./README.md).

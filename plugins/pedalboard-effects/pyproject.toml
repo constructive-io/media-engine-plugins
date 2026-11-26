@@ -3,7 +3,7 @@ requires = ["setuptools>=77"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "constructive-media-pedalboard"
+name = "media-engine-pedalboard"
 dynamic = ["version"]
 description = "Studio effects for Constructive Media, through pedalboard."
 readme = "README.md"
@@ -16,13 +16,13 @@ keywords = ["constructive", "media", "audio", "effects", "pedalboard"]
 dependencies = ["constructive-media", "pedalboard>=0.9", "numpy>=1.26"]
 
 [project.entry-points."constructive_media.adapters"]
-pedalboard = "constructive_media_pedalboard:adapters"
+pedalboard = "media_engine_pedalboard:adapters"
 
 [project.urls]
-Homepage = "https://github.com/constructive-io/constructive-media-plugins"
+Homepage = "https://github.com/constructive-io/media-engine-plugins"
 
 [tool.setuptools]
-packages = ["constructive_media_pedalboard"]
+packages = ["media_engine_pedalboard"]
 
 [tool.setuptools.dynamic]
-version = { attr = "constructive_media_pedalboard.__version__" }
+version = { attr = "media_engine_pedalboard.__version__" }

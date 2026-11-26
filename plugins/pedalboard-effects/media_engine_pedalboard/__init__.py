@@ -75,7 +75,7 @@ def adapters() -> list[Adapter]:
         Adapter(
             slot="effects",
             name="pedalboard",
-            factory=lazy("constructive_media_pedalboard:PedalboardEffects"),
+            factory=lazy("media_engine_pedalboard:PedalboardEffects"),
             license=LICENSE,
             summary="Reverb, delay, compression and gain with pedalboard's studio effects",
         )
