@@ -3,6 +3,12 @@
 Adapters for [Constructive Media](https://github.com/constructive-io/constructive-media)
 whose tools are not MIT, Apache-2.0 or BSD licensed. See [README.md](./README.md).
 
+How plugins are installed, chosen and written is a skill in this repo:
+`.agents/skills/media-engine-plugins/SKILL.md`. Read it before installing a plugin for
+somebody or writing one. Using the engine itself is the `constructive-media` skill in the
+engine's repository, and writing `.conv` scripts is the `conv` skill in
+[conv-spec](https://github.com/constructive-io/conv-spec).
+
 ## Rules that are specific to this repository
 
 - **One plugin, one folder, one license.** Each folder under `plugins/` is a package of

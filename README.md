@@ -84,6 +84,19 @@ cd plugins/pedalboard-effects && python -m unittest discover -s tests -t .
 
 Sound and images are made by the tests. No trained model is downloaded.
 
+## Working with an AI agent
+
+The `media-engine-plugins` skill at `.agents/skills/media-engine-plugins/` covers
+installing a plugin, choosing it, what its license means and writing a new one. Install it
+where your agent looks with:
+
+```sh
+npx skills add https://github.com/constructive-io/media-engine-plugins --skill media-engine-plugins
+```
+
+The engine's repository has the `constructive-media` skill, for using the engine, and
+conv-spec has the `conv` skill, for writing scripts.
+
 ## Related
 
 - [constructive-media](https://github.com/constructive-io/constructive-media): the engine.
