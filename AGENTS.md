@@ -7,7 +7,7 @@ How plugins are installed, chosen and written is a skill in this repo:
 `.agents/skills/media-engine-plugins/SKILL.md`. Read it before installing a plugin for
 somebody or writing one. Using the engine itself is the `constructive-media` skill in the
 engine's repository, and writing `.conv` scripts is the `conv` skill in
-[conv-spec](https://github.com/constructive-io/conv-spec).
+[conversation-spec](https://github.com/constructive-io/conversation-spec).
 
 ## Rules that are specific to this repository
 

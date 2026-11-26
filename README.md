@@ -95,10 +95,10 @@ npx skills add https://github.com/constructive-io/media-engine-plugins --skill m
 ```
 
 The engine's repository has the `constructive-media` skill, for using the engine, and
-conv-spec has the `conv` skill, for writing scripts.
+conversation-spec has the `conv` skill, for writing scripts.
 
 ## Related
 
 - [constructive-media](https://github.com/constructive-io/constructive-media): the engine.
-- [conv-spec](https://github.com/constructive-io/conv-spec): the `.conv` script format the engine renders.
+- [conversation-spec](https://github.com/constructive-io/conversation-spec): the `.conv` script format the engine renders.
 - [Constructive](https://github.com/constructive-io/constructive): the secure-by-default Postgres platform this is part of.
