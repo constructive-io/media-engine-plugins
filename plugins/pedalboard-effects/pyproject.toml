@@ -1,0 +1,28 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "constructive-media-pedalboard"
+dynamic = ["version"]
+description = "Studio effects for Constructive Media, through pedalboard."
+readme = "README.md"
+requires-python = ">=3.11"
+# pedalboard is GPL-3.0, so this adapter is too.
+license = "GPL-3.0-only"
+license-files = ["LICENSE"]
+authors = [{ name = "Dan Lynch", email = "pyramation@gmail.com" }]
+keywords = ["constructive", "media", "audio", "effects", "pedalboard"]
+dependencies = ["constructive-media", "pedalboard>=0.9", "numpy>=1.26"]
+
+[project.entry-points."constructive_media.adapters"]
+pedalboard = "constructive_media_pedalboard:adapters"
+
+[project.urls]
+Homepage = "https://github.com/constructive-io/constructive-media-plugins"
+
+[tool.setuptools]
+packages = ["constructive_media_pedalboard"]
+
+[tool.setuptools.dynamic]
+version = { attr = "constructive_media_pedalboard.__version__" }

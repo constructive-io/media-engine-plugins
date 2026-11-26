@@ -1,0 +1,28 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "constructive-media-ultralytics"
+dynamic = ["version"]
+description = "Ultralytics YOLO detectors for Constructive Media."
+readme = "README.md"
+requires-python = ">=3.11"
+# Ultralytics is AGPL-3.0, so this adapter is too.
+license = "AGPL-3.0-only"
+license-files = ["LICENSE"]
+authors = [{ name = "Dan Lynch", email = "pyramation@gmail.com" }]
+keywords = ["constructive", "media", "video", "detection", "yolo", "ultralytics"]
+dependencies = ["constructive-media", "ultralytics>=8.3"]
+
+[project.entry-points."constructive_media.adapters"]
+ultralytics = "constructive_media_ultralytics:adapters"
+
+[project.urls]
+Homepage = "https://github.com/constructive-io/constructive-media-plugins"
+
+[tool.setuptools]
+packages = ["constructive_media_ultralytics"]
+
+[tool.setuptools.dynamic]
+version = { attr = "constructive_media_ultralytics.__version__" }

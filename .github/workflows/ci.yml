@@ -1,0 +1,48 @@
+name: CI
+
+# Run by hand for now. A plugin is tested against the engine, and until the
+# engine's repository is public a workflow here cannot fetch it. When it is,
+# add `push` and `pull_request` on `main` here.
+on:
+  workflow_dispatch:
+
+jobs:
+  test:
+    name: ${{ matrix.plugin }} (Python ${{ matrix.python }})
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        plugin: [pedalboard-effects, ultralytics-detection]
+        python: ['3.11', '3.13']
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Checkout the engine
+        uses: actions/checkout@v4
+        with:
+          repository: constructive-io/constructive-media
+          path: engine
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+
+      - name: Install ffmpeg
+        run: sudo apt-get update && sudo apt-get install -y --no-install-recommends ffmpeg
+
+      # The CPU build of PyTorch, so that nothing from NVIDIA is pulled in.
+      - name: Install
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install torch torchvision --index-url https://download.pytorch.org/whl/cpu
+          python -m pip install "./engine[audio,detection]"
+          python -m pip install ./plugins/${{ matrix.plugin }}
+
+      - name: Test
+        working-directory: plugins/${{ matrix.plugin }}
+        run: python -W error::DeprecationWarning -m unittest discover -s tests -t .

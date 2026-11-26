@@ -1,0 +1,25 @@
+**/.DS_Store
+**/__pycache__/
+**/*.egg-info/
+.venv/
+build/
+dist/
+uv.lock
+
+# No content in this repository: no audio, footage, images of people, or weights.
+*.wav
+*.mp3
+*.flac
+*.m4a
+*.ogg
+*.mp4
+*.mov
+*.mkv
+*.webm
+*.pt
+*.pth
+*.ckpt
+*.onnx
+*.safetensors
+*.gguf
+*.npz
