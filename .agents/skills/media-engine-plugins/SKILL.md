@@ -132,4 +132,4 @@ cd plugins/pedalboard-effects && python -m unittest discover -s tests -t .
 | Skill | Where | For |
 | --- | --- | --- |
 | `constructive-media` | [constructive-media](https://github.com/constructive-io/constructive-media) | Setting up and using the engine |
-| `conv` | [conversation-spec](https://github.com/constructive-io/conversation-spec) | Writing and checking the `.conv` scripts the engine renders |
+| `conv` | [conversation-format](https://github.com/constructive-io/conversation-format) | Writing and checking the `.conv` scripts the engine renders |
