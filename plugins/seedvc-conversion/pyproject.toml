@@ -1,0 +1,29 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "media-engine-seedvc"
+dynamic = ["version"]
+description = "Voice conversion for Constructive Media, through Seed-VC."
+readme = "README.md"
+# Seed-VC needs a NumPy older than 2, and there is none for Python 3.13.
+requires-python = ">=3.11,<3.13"
+# Seed-VC is GPL-3.0, code and weights, so this adapter is too.
+license = "GPL-3.0-only"
+license-files = ["LICENSE"]
+authors = [{ name = "Dan Lynch", email = "pyramation@gmail.com" }]
+keywords = ["constructive", "media", "audio", "voice", "voice-conversion", "seed-vc"]
+dependencies = ["constructive-media[audio]", "seed-vc>=0.4,<0.5", "huggingface-hub"]
+
+[project.entry-points."constructive_media.adapters"]
+seedvc = "media_engine_seedvc:adapters"
+
+[project.urls]
+Homepage = "https://github.com/constructive-io/media-engine-plugins"
+
+[tool.setuptools]
+packages = ["media_engine_seedvc"]
+
+[tool.setuptools.dynamic]
+version = { attr = "media_engine_seedvc.__version__" }

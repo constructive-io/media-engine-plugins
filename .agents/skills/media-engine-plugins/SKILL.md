@@ -1,10 +1,10 @@
 ---
 name: media-engine-plugins
-description: Plugins for Constructive Media — adapters for tools under copyleft licenses (GPL, AGPL), each a package of its own. Use when asked to "install a media engine plugin", "use pedalboard effects", "use Ultralytics YOLO for detection", "switch the effects backend", "switch the detector", "write a plugin for the media engine", "add an adapter", or when a tool somebody wants is not MIT, Apache-2.0 or BSD licensed.
+description: Plugins for Constructive Media — adapters for tools under copyleft licenses (GPL, AGPL), each a package of its own. Use when asked to "install a media engine plugin", "use pedalboard effects", "use Ultralytics YOLO for detection", "use Seed-VC", "convert a voice", "say a recording again in another voice", "install voice conversion", "switch the effects backend", "switch the detector", "write a plugin for the media engine", "add an adapter", or when a tool somebody wants is not MIT, Apache-2.0 or BSD licensed.
 compatibility: Python 3.11+, with constructive-media installed in the same environment
 metadata:
   author: constructive-io
-  version: "0.1.0"
+  version: "0.2.0"
 ---
 
 # Media engine plugins
@@ -30,6 +30,7 @@ to a cut), use the `constructive-media` skill in the engine's repository.
 | --- | --- | --- | --- | --- |
 | [`pedalboard-effects`](../../../plugins/pedalboard-effects) | `effects` | `pedalboard` | pedalboard | GPL-3.0-only |
 | [`ultralytics-detection`](../../../plugins/ultralytics-detection) | `detection` | `ultralytics` | Ultralytics YOLO | AGPL-3.0-only |
+| [`seedvc-conversion`](../../../plugins/seedvc-conversion) | `voice_conversion` | `seedvc` | Seed-VC | GPL-3.0-only |
 
 Each wraps the real library, which it installs as a dependency. Nothing is
 reimplemented here.
@@ -41,6 +42,7 @@ Into the environment the engine is installed in:
 ```sh
 pip install ./plugins/pedalboard-effects
 pip install ./plugins/ultralytics-detection
+pip install ./plugins/seedvc-conversion      # Python 3.11 or 3.12 only
 
 media adapters   # every slot, what can fill it, its license and where it came from
 ```
@@ -51,10 +53,35 @@ Installing changes nothing. A plugin is never the default; choose it by slot:
 export CONSTRUCTIVE_MEDIA_ADAPTER_EFFECTS=pedalboard
 export CONSTRUCTIVE_MEDIA_ADAPTER_DETECTION=ultralytics
 export CONSTRUCTIVE_MEDIA_MODEL_DETECTION=yolo11n    # a name Ultralytics publishes, or a model file
+export CONSTRUCTIVE_MEDIA_ADAPTER_VOICE_CONVERSION=seedvc
 ```
 
 `media adapters` marks the adapter in use with `*`. Unset the variable to go back
-to the engine's own.
+to the engine's own. The engine has none of its own for `voice_conversion`:
+`media revoice` and `media talk --quick` work only with a plugin chosen.
+
+## Voice conversion
+
+```sh
+media revoice take.wav out/take-as-ada.wav --voice ada      # a persona whose voice was cloned from a clip
+media revoice take.wav out/take-as-ada.wav --like ada.flac  # or any recording of the voice
+media talk --voice ada --quick af_heart                     # a quick voice, said again in ada's
+```
+
+- **It fetches about 2.8 GB of weights the first time**, into Hugging Face's
+  usual cache. Say so before the first run, and do not call it hung.
+- **`media revoice` prints how like the voice the result is**, beside how like
+  it the recording was. About 0.8 is as near as a clone. One test voice came
+  out 0.79 and another 0.38 to 0.53: report the number, and under about 0.6
+  say that it leans towards the voice and is not it.
+- **More `steps` are slower and were no nearer the voice.** Leave the default
+  (10) unless somebody hears a reason; 4 for talking saves a fifth of a second
+  a sentence. Options go in `CONSTRUCTIVE_MEDIA_EXTRA_VOICE_CONVERSION` as
+  JSON, and are listed in the plugin's README.
+- **It needs a NumPy older than 2**, so an environment on Python 3.13, or one
+  whose other packages need NumPy 2, cannot hold it. Give it one of its own.
+- **Two people's say-so.** The voice is somebody's and so is the recording
+  that is said again. Do not convert into a voice without its owner's yes.
 
 ## Before recommending one
 
@@ -64,9 +91,10 @@ to the engine's own.
   plugin as a side effect of something else.
 - **Ultralytics may send usage statistics** unless that is turned off
   (`yolo settings sync=False`). The engine sends nothing.
-- **The engine does not need either.** Its own effects run through `ffmpeg` and
-  its own detectors are Apache-2.0. Measure before claiming a plugin is better
-  for the job at hand.
+- **The engine does not need pedalboard or Ultralytics.** Its own effects run
+  through `ffmpeg` and its own detectors are Apache-2.0. Measure before
+  claiming a plugin is better for the job at hand. Voice conversion is the one
+  thing here the engine cannot do without a plugin.
 
 ## Writing a plugin
 

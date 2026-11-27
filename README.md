@@ -18,6 +18,7 @@ plugin through an entry point, and works the same without one.
 | --- | --- | --- | --- | --- |
 | [`pedalboard-effects`](./plugins/pedalboard-effects) | `effects` | `pedalboard` | [pedalboard](https://github.com/spotify/pedalboard) | GPL-3.0-only |
 | [`ultralytics-detection`](./plugins/ultralytics-detection) | `detection` | `ultralytics` | [Ultralytics YOLO](https://github.com/ultralytics/ultralytics) | AGPL-3.0-only |
+| [`seedvc-conversion`](./plugins/seedvc-conversion) | `voice_conversion` | `seedvc` | [Seed-VC](https://github.com/Plachtaa/seed-vc) | GPL-3.0-only |
 
 ## Install
 
@@ -27,6 +28,7 @@ Install the engine first, then the plugins you want, into the same environment:
 pip install "./constructive-media[all]"
 pip install ./media-engine-plugins/plugins/pedalboard-effects
 pip install ./media-engine-plugins/plugins/ultralytics-detection
+pip install ./media-engine-plugins/plugins/seedvc-conversion       # Python 3.11 or 3.12
 
 media adapters
 ```
@@ -48,7 +50,12 @@ it, by slot:
 ```sh
 export CONSTRUCTIVE_MEDIA_ADAPTER_EFFECTS=pedalboard
 export CONSTRUCTIVE_MEDIA_ADAPTER_DETECTION=ultralytics
+export CONSTRUCTIVE_MEDIA_ADAPTER_VOICE_CONVERSION=seedvc
 ```
+
+The first two take the place of an adapter the engine has of its own. The
+third fills a slot the engine leaves empty: without it, `media revoice` and
+`media talk --quick` say what to install.
 
 ## Licenses
 
