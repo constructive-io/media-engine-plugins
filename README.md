@@ -28,10 +28,10 @@ pip install "./constructive-media[all]"
 pip install ./media-engine-plugins/plugins/pedalboard-effects
 pip install ./media-engine-plugins/plugins/ultralytics-detection
 
-me adapters
+media adapters
 ```
 
-`me adapters` lists every adapter the engine can see, with its license and
+`media adapters` lists every adapter the engine can see, with its license and
 where it came from:
 
 ```

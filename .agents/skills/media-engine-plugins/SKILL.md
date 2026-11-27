@@ -42,7 +42,7 @@ Into the environment the engine is installed in:
 pip install ./plugins/pedalboard-effects
 pip install ./plugins/ultralytics-detection
 
-me adapters      # every slot, what can fill it, its license and where it came from
+media adapters   # every slot, what can fill it, its license and where it came from
 ```
 
 Installing changes nothing. A plugin is never the default; choose it by slot:
@@ -53,7 +53,7 @@ export CONSTRUCTIVE_MEDIA_ADAPTER_DETECTION=ultralytics
 export CONSTRUCTIVE_MEDIA_MODEL_DETECTION=yolo11n    # a name Ultralytics publishes, or a model file
 ```
 
-`me adapters` marks the adapter in use with `*`. Unset the variable to go back
+`media adapters` marks the adapter in use with `*`. Unset the variable to go back
 to the engine's own.
 
 ## Before recommending one
