@@ -1,6 +1,6 @@
 # media-engine-pedalboard
 
-Studio effects for [Constructive Media](https://github.com/constructive-io/constructive-media),
+Studio effects for [Constructive Media](https://github.com/constructive-io/media-engine),
 through Spotify's [pedalboard](https://github.com/spotify/pedalboard).
 
 It fills the engine's `effects` slot under the name `pedalboard`: the reverb,

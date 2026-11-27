@@ -1,7 +1,7 @@
 # media-engine-ultralytics
 
 [Ultralytics YOLO](https://github.com/ultralytics/ultralytics) detectors for
-[Constructive Media](https://github.com/constructive-io/constructive-media).
+[Constructive Media](https://github.com/constructive-io/media-engine).
 
 It fills the engine's `detection` slot under the name `ultralytics`: what is in
 each frame, as labelled boxes.

@@ -5,7 +5,7 @@
 </p>
 
 <p align="center" width="100%">
-  Adapters for <a href="https://github.com/constructive-io/constructive-media">Constructive Media</a> whose tools carry a copyleft license.
+  Adapters for <a href="https://github.com/constructive-io/media-engine">Constructive Media</a> whose tools carry a copyleft license.
 </p>
 
 Constructive Media is MIT licensed, and everything it contains or needs is MIT,
@@ -71,7 +71,7 @@ A plugin is an ordinary Python package that declares an entry point in the
 `constructive_media.adapters` group and returns its adapters, each with its
 slot, its name and its license stated honestly. What an adapter must do is set
 by its slot. Both are described in the engine's
-[docs/ADAPTERS.md](https://github.com/constructive-io/constructive-media/blob/main/docs/ADAPTERS.md).
+[docs/ADAPTERS.md](https://github.com/constructive-io/media-engine/blob/main/docs/ADAPTERS.md).
 
 ## Tests
 
@@ -99,6 +99,6 @@ conversation-format has the `conv` skill, for writing scripts.
 
 ## Related
 
-- [constructive-media](https://github.com/constructive-io/constructive-media): the engine.
+- [media-engine](https://github.com/constructive-io/media-engine): the engine.
 - [conversation-format](https://github.com/constructive-io/conversation-format): the `.conv` script format the engine renders.
 - [Constructive](https://github.com/constructive-io/constructive): the secure-by-default Postgres platform this is part of.

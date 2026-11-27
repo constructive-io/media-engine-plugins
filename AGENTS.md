@@ -1,6 +1,6 @@
 # media-engine-plugins — agent guide
 
-Adapters for [Constructive Media](https://github.com/constructive-io/constructive-media)
+Adapters for [Constructive Media](https://github.com/constructive-io/media-engine)
 whose tools are not MIT, Apache-2.0 or BSD licensed. See [README.md](./README.md).
 
 How plugins are installed, chosen and written is a skill in this repo:

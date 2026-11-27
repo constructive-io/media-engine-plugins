@@ -9,7 +9,7 @@ metadata:
 
 # Media engine plugins
 
-[Constructive Media](https://github.com/constructive-io/constructive-media) is
+[Constructive Media](https://github.com/constructive-io/media-engine) is
 MIT licensed and contains only MIT, Apache-2.0 and BSD code. A tool under
 another license is driven by a plugin from this repository: a separate package,
 under that tool's license, which the engine finds once it is installed and
@@ -111,7 +111,7 @@ def adapters():
 ```
 
 What the object must do is set by its slot, in the engine's
-[docs/ADAPTERS.md](https://github.com/constructive-io/constructive-media/blob/main/docs/ADAPTERS.md).
+[docs/ADAPTERS.md](https://github.com/constructive-io/media-engine/blob/main/docs/ADAPTERS.md).
 Rules that hold for every plugin:
 
 - Import the tool's library only inside the adapter, never at the top of the
@@ -131,5 +131,5 @@ cd plugins/pedalboard-effects && python -m unittest discover -s tests -t .
 
 | Skill | Where | For |
 | --- | --- | --- |
-| `constructive-media` | [constructive-media](https://github.com/constructive-io/constructive-media) | Setting up and using the engine |
+| `constructive-media` | [media-engine](https://github.com/constructive-io/media-engine) | Setting up and using the engine |
 | `conv` | [conversation-format](https://github.com/constructive-io/conversation-format) | Writing and checking the `.conv` scripts the engine renders |

@@ -24,7 +24,7 @@ jobs:
       - name: Checkout the engine
         uses: actions/checkout@v4
         with:
-          repository: constructive-io/constructive-media
+          repository: constructive-io/media-engine
           path: engine
 
       - name: Setup Python
