@@ -1,10 +1,17 @@
 name: CI
 
-# Run by hand for now. A plugin is tested against the engine, and until the
-# engine's repository is public a workflow here cannot fetch it. When it is,
-# add `push` and `pull_request` on `main` here.
+# A plugin is tested against the engine, which this fetches from its own
+# repository.
 on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
   workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   test:
