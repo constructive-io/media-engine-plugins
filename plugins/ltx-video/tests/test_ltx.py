@@ -303,7 +303,10 @@ class FromAPicture(WithStandIns):
             self.assertTrue(red < 40 and green > 200 and blue < 40, (at, red, green, blue))
 
     def test_it_is_roughened_unless_told_not_to(self):
-        picture = painted(self.folder / "bands.png", (RED, 128, 256), (BLUE, 128, 256))
+        # A picture with detail in it: flat colour comes through any amount of roughening the same.
+        picture = self.folder / "detail.png"
+        ffmpeg.run(ffmpeg.FFMPEG, "-hide_banner", "-loglevel", "error", "-y", "-f", "lavfi",
+                   "-i", "testsrc2=s=256x256", "-frames:v", "1", str(picture))
         clean = np.frombuffer(plugin.first_frame(picture, 256, 256, 0), dtype=np.uint8).astype(int)
         some = np.frombuffer(plugin.first_frame(picture, 256, 256, 12), dtype=np.uint8).astype(int)
         more = np.frombuffer(plugin.first_frame(picture, 256, 256, 31), dtype=np.uint8).astype(int)
