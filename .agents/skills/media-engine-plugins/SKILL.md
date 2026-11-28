@@ -1,10 +1,10 @@
 ---
 name: media-engine-plugins
-description: Plugins for Constructive Media — adapters for tools under copyleft licenses (GPL, AGPL) and for models published under terms of their own, each a package of its own. Use when asked to "install a media engine plugin", "use pedalboard effects", "use Ultralytics YOLO for detection", "use Seed-VC", "convert a voice", "say a recording again in another voice", "install voice conversion", "make a still move", "animate a picture", "image to video", "use LTX-Video", "switch the effects backend", "switch the detector", "write a plugin for the media engine", "add an adapter", or when a tool or a model somebody wants is not MIT, Apache-2.0 or BSD licensed.
+description: Plugins for Constructive Media — adapters for tools under copyleft licenses (GPL, AGPL) and for models published under terms of their own, each a package of its own. Use when asked to "install a media engine plugin", "use pedalboard effects", "use Ultralytics YOLO for detection", "use Seed-VC", "convert a voice", "say a recording again in another voice", "install voice conversion", "make a still move", "animate a picture", "image to video", "use LTX-Video", "take a voice out of a song", "separate a voice from music", "remove the music from under a voice", "use Demucs", "switch the effects backend", "switch the detector", "write a plugin for the media engine", "add an adapter", or when a tool or a model somebody wants is not MIT, Apache-2.0 or BSD licensed.
 compatibility: Python 3.11+, with constructive-media installed in the same environment
 metadata:
   author: constructive-io
-  version: "0.3.0"
+  version: "0.4.0"
 ---
 
 # Media engine plugins
@@ -19,6 +19,7 @@ which the engine finds once it is installed and uses only when it is chosen.
 
 - Installing a plugin, choosing it, or checking which adapter a slot is using.
 - Making a still move, which the engine's own video adapter does not do.
+- Taking a voice out from over music, which nothing in the engine does.
 - Writing an adapter for a tool or a model whose license the engine cannot hold.
 - Answering what installing a plugin does to the license of what is built.
 
@@ -33,6 +34,7 @@ to a cut), use the `constructive-media` skill in the engine's repository.
 | [`ultralytics-detection`](../../../plugins/ultralytics-detection) | `detection` | `ultralytics` | Ultralytics YOLO | AGPL-3.0-only |
 | [`seedvc-conversion`](../../../plugins/seedvc-conversion) | `voice_conversion` | `seedvc` | Seed-VC | GPL-3.0-only |
 | [`ltx-video`](../../../plugins/ltx-video) | `video` | `ltx` | LTX-Video | Code MIT; the model under Lightricks' terms |
+| [`demucs-separation`](../../../plugins/demucs-separation) | `separation` | `demucs` | Demucs | Code MIT; the weights for research only |
 
 Each wraps the real library, which it installs as a dependency. Nothing is
 reimplemented here.
@@ -46,6 +48,7 @@ pip install ./plugins/pedalboard-effects
 pip install ./plugins/ultralytics-detection
 pip install ./plugins/seedvc-conversion      # Python 3.11 or 3.12 only
 pip install ./plugins/ltx-video              # about 26 GB of weights when first used
+pip install ./plugins/demucs-separation      # about 84 MB of weights when first used
 
 media adapters   # every slot, what can fill it, its license and where it came from
 ```
@@ -58,11 +61,13 @@ export CONSTRUCTIVE_MEDIA_ADAPTER_DETECTION=ultralytics
 export CONSTRUCTIVE_MEDIA_MODEL_DETECTION=yolo11n    # a name Ultralytics publishes, or a model file
 export CONSTRUCTIVE_MEDIA_ADAPTER_VOICE_CONVERSION=seedvc
 export CONSTRUCTIVE_MEDIA_ADAPTER_VIDEO=ltx          # or --adapter ltx, for one piece
+export CONSTRUCTIVE_MEDIA_ADAPTER_SEPARATION=demucs  # or --adapter demucs, for one recording
 ```
 
 `media adapters` marks the adapter in use with `*`. Unset the variable to go back
 to the engine's own. The engine has none of its own for `voice_conversion`:
-`media revoice` and `media talk --quick` work only with a plugin chosen.
+`media revoice` and `media talk --quick` work only with a plugin chosen. It has
+none for `separation` either: `media separate` works only with one.
 
 ## Voice conversion
 
@@ -121,6 +126,37 @@ media generate video "a paper lantern swinging under a porch in light rain" --se
 - **Somebody's picture is somebody's.** The terms forbid impersonating a
   person without their consent. Do not make a picture of a real person move
   without their yes.
+
+## A voice taken out from over music
+
+```sh
+media separate song.wav parts --adapter demucs     # parts/voice.wav and parts/rest.wav
+CONSTRUCTIVE_MEDIA_EXTRA_SEPARATION='{"parts": "all"}' media separate song.wav parts --adapter demucs
+```
+
+- **Say what the weights are under before installing it, and again before
+  what it makes is used.** The code is MIT. No license was published for the
+  weights: their author says they "are not covered by the MIT license, and
+  are provided only for scientific purposes", and that he cannot grant one.
+  The plugin's README has each statement and its link. Describe that; do not
+  rule on whether somebody's use is allowed, and do not reach for this plugin
+  for work that is plainly commercial without the person knowing.
+- **It is small and quick.** About 84 MB of weights, fetched once. Three
+  minutes of sound took 7 seconds on Apple silicon and 35 on its CPU.
+- **Memory grows with the recording**: about 2 GB up to three minutes, about
+  11 GB for half an hour. Cut a long recording first.
+- **Some of the music stays.** In one trial it came out 13 dB further under
+  the voice, not gone, and the voice lost a little of itself. Have the
+  person listen to `voice.wav` before a voice is cloned from it.
+- **Read what it prints.** A level is printed for each part. "Hardly anything
+  came out as the voice" means no voice was found; "hardly anything came out
+  but the voice" means the recording can be used as it is.
+- **`parts: "all"`** writes `drums.wav`, `bass.wav` and `other.wav` beside
+  the voice. Everything that is not a voice, drums or a bass is `other`.
+- **All who speak or sing are one voice to it.** It does not tell people
+  apart; `media diarize` does that, afterwards.
+- **The recording is somebody's, and so is the voice in it.** Pulling a
+  voice out of a song gives nobody the right to use either.
 
 ## Before recommending one
 

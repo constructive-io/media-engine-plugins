@@ -1,0 +1,30 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "media-engine-demucs"
+dynamic = ["version"]
+description = "A voice taken out from over music for Constructive Media, through Demucs."
+readme = "README.md"
+requires-python = ">=3.11"
+# This is the license of the adapter's code. The weights it runs are fetched
+# from the authors of Demucs, who say they are not under the MIT license of
+# the code and are for research: see the README.
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [{ name = "Dan Lynch", email = "pyramation@gmail.com" }]
+keywords = ["constructive", "media", "audio", "voice", "source-separation", "demucs"]
+dependencies = ["constructive-media[audio]", "demucs>=4.1", "torch"]
+
+[project.entry-points."constructive_media.adapters"]
+demucs = "media_engine_demucs:adapters"
+
+[project.urls]
+Homepage = "https://github.com/constructive-io/media-engine-plugins"
+
+[tool.setuptools]
+packages = ["media_engine_demucs"]
+
+[tool.setuptools.dynamic]
+version = { attr = "media_engine_demucs.__version__" }

@@ -17,11 +17,13 @@ engine's repository, and writing `.conv` scripts is the `conv` skill in
   the tool it drives, stated as an SPDX identifier in `pyproject.toml` and on the
   `Adapter` it returns. Plugins do not import one another.
 - **A model under terms of its own is named as that.** Where the libraries a plugin
-  uses are permissive and it is the model that is not (`ltx-video`), the plugin's code
+  uses are permissive and it is the model that is not (`ltx-video`, `demucs-separation`), the plugin's code
   is MIT, the `Adapter` states the model's terms as a `LicenseRef-` identifier, and the
   plugin's README sets those terms out version by version, from the published texts,
   as a description and not as advice. Read the text before writing about it: the terms
-  of one model have differed from one version to the next.
+  of one model have differed from one version to the next. Where no license was
+  published for a model at all, say so, and quote what its makers have said in its
+  place, with where and when they said it.
 - **Nothing here goes into the engine.** Most code written here is copyleft, and an
   adapter that is MIT still runs something the engine may not hold. Do not copy either
   into `constructive-media`, and do not copy the engine's interfaces here: import them.

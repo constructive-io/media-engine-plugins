@@ -21,7 +21,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        plugin: [pedalboard-effects, ultralytics-detection, seedvc-conversion, ltx-video]
+        plugin: [pedalboard-effects, ultralytics-detection, seedvc-conversion, ltx-video, demucs-separation]
         python: ['3.11', '3.13']
         # Seed-VC needs a NumPy older than 2, and there is none for Python 3.13.
         exclude:

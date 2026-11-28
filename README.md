@@ -21,6 +21,7 @@ installed plugin through an entry point, and works the same without one.
 | [`ultralytics-detection`](./plugins/ultralytics-detection) | `detection` | `ultralytics` | [Ultralytics YOLO](https://github.com/ultralytics/ultralytics) | AGPL-3.0-only |
 | [`seedvc-conversion`](./plugins/seedvc-conversion) | `voice_conversion` | `seedvc` | [Seed-VC](https://github.com/Plachtaa/seed-vc) | GPL-3.0-only |
 | [`ltx-video`](./plugins/ltx-video) | `video` | `ltx` | [LTX-Video](https://github.com/Lightricks/LTX-Video) | Code MIT; the model under [Lightricks' terms](./plugins/ltx-video#the-models-terms) |
+| [`demucs-separation`](./plugins/demucs-separation) | `separation` | `demucs` | [Demucs](https://github.com/adefossez/demucs) | Code MIT; the weights [for research only](./plugins/demucs-separation#the-weights-terms) |
 
 ## Install
 
@@ -32,6 +33,7 @@ pip install ./media-engine-plugins/plugins/pedalboard-effects
 pip install ./media-engine-plugins/plugins/ultralytics-detection
 pip install ./media-engine-plugins/plugins/seedvc-conversion       # Python 3.11 or 3.12
 pip install ./media-engine-plugins/plugins/ltx-video               # fetches about 26 GB of weights when first used
+pip install ./media-engine-plugins/plugins/demucs-separation       # fetches about 84 MB of weights when first used
 
 media adapters
 ```
@@ -55,6 +57,7 @@ export CONSTRUCTIVE_MEDIA_ADAPTER_EFFECTS=pedalboard
 export CONSTRUCTIVE_MEDIA_ADAPTER_DETECTION=ultralytics
 export CONSTRUCTIVE_MEDIA_ADAPTER_VOICE_CONVERSION=seedvc
 export CONSTRUCTIVE_MEDIA_ADAPTER_VIDEO=ltx
+export CONSTRUCTIVE_MEDIA_ADAPTER_SEPARATION=demucs
 ```
 
 The first two take the place of an adapter the engine has of its own. The
@@ -65,6 +68,14 @@ can be asked for one piece at a time instead:
 
 ```sh
 media generate video "fog drifting over the water" --from harbour.png --adapter ltx
+```
+
+The fifth fills another slot the engine leaves empty: without it,
+`media separate` says what to install. With it, a voice is taken out from
+over music:
+
+```sh
+media separate song.wav parts --adapter demucs     # parts/voice.wav, parts/rest.wav
 ```
 
 ## Licenses
