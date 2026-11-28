@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "media-engine-latentsync"
+dynamic = ["version"]
+description = "A face in a video made to say a recording for Constructive Media, through LatentSync."
+readme = "README.md"
+requires-python = ">=3.11"
+# This is the license of the adapter's code. It installs nothing of
+# LatentSync's: it drives a checkout of LatentSync that you made, whose code
+# is Apache-2.0, whose weights are under the Open RAIL++-M License, and whose
+# face finder runs models that are for non-commercial research. See the README.
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [{ name = "Dan Lynch", email = "pyramation@gmail.com" }]
+keywords = ["constructive", "media", "video", "lip-sync", "talking-head", "latentsync"]
+dependencies = ["constructive-media"]
+
+[project.entry-points."constructive_media.adapters"]
+latentsync = "media_engine_latentsync:adapters"
+
+[project.urls]
+Homepage = "https://github.com/constructive-io/media-engine-plugins"
+
+[tool.setuptools]
+packages = ["media_engine_latentsync"]
+
+[tool.setuptools.dynamic]
+version = { attr = "media_engine_latentsync.__version__" }

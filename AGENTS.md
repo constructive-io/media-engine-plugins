@@ -17,13 +17,21 @@ engine's repository, and writing `.conv` scripts is the `conv` skill in
   the tool it drives, stated as an SPDX identifier in `pyproject.toml` and on the
   `Adapter` it returns. Plugins do not import one another.
 - **A model under terms of its own is named as that.** Where the libraries a plugin
-  uses are permissive and it is the model that is not (`ltx-video`, `demucs-separation`), the plugin's code
-  is MIT, the `Adapter` states the model's terms as a `LicenseRef-` identifier, and the
+  uses are permissive and it is the model that is not (`ltx-video`, `demucs-separation`,
+  `latentsync-lipsync`), the plugin's code is MIT, the `Adapter` states the model's terms as a `LicenseRef-` identifier, and the
   plugin's README sets those terms out version by version, from the published texts,
   as a description and not as advice. Read the text before writing about it: the terms
   of one model have differed from one version to the next. Where no license was
   published for a model at all, say so, and quote what its makers have said in its
-  place, with where and when they said it.
+  place, with where and when they said it. A model that leans on other models
+  (a face finder, a speech model) is under the terms of each: read and set out all of
+  them, and name the narrowest in the `LicenseRef-`.
+- **A tool that cannot be installed is run where it is.** Some models are a repository
+  run from its checkout and not a package. An adapter for one (`latentsync-lipsync`)
+  depends on nothing but the engine, is told where the checkout and its Python are,
+  and runs it there as a separate program in a folder made for the run. It does not
+  edit the checkout, vendor its code, or install its requirements, and its README says
+  which environment was actually tried.
 - **Nothing here goes into the engine.** Most code written here is copyleft, and an
   adapter that is MIT still runs something the engine may not hold. Do not copy either
   into `constructive-media`, and do not copy the engine's interfaces here: import them.

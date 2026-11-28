@@ -1,10 +1,10 @@
 ---
 name: media-engine-plugins
-description: Plugins for Constructive Media — adapters for tools under copyleft licenses (GPL, AGPL) and for models published under terms of their own, each a package of its own. Use when asked to "install a media engine plugin", "use pedalboard effects", "use Ultralytics YOLO for detection", "use Seed-VC", "convert a voice", "say a recording again in another voice", "install voice conversion", "make a still move", "animate a picture", "image to video", "use LTX-Video", "take a voice out of a song", "separate a voice from music", "remove the music from under a voice", "use Demucs", "switch the effects backend", "switch the detector", "write a plugin for the media engine", "add an adapter", or when a tool or a model somebody wants is not MIT, Apache-2.0 or BSD licensed.
+description: Plugins for Constructive Media — adapters for tools under copyleft licenses (GPL, AGPL) and for models published under terms of their own, each a package of its own. Use when asked to "install a media engine plugin", "use pedalboard effects", "use Ultralytics YOLO for detection", "use Seed-VC", "convert a voice", "say a recording again in another voice", "install voice conversion", "make a still move", "animate a picture", "image to video", "use LTX-Video", "take a voice out of a song", "separate a voice from music", "remove the music from under a voice", "use Demucs", "lip sync a video", "make a face say a recording", "make a picture talk", "use LatentSync", "switch the effects backend", "switch the detector", "write a plugin for the media engine", "add an adapter", or when a tool or a model somebody wants is not MIT, Apache-2.0 or BSD licensed.
 compatibility: Python 3.11+, with constructive-media installed in the same environment
 metadata:
   author: constructive-io
-  version: "0.4.0"
+  version: "0.5.0"
 ---
 
 # Media engine plugins
@@ -20,6 +20,7 @@ which the engine finds once it is installed and uses only when it is chosen.
 - Installing a plugin, choosing it, or checking which adapter a slot is using.
 - Making a still move, which the engine's own video adapter does not do.
 - Taking a voice out from over music, which nothing in the engine does.
+- Making the face in a video say a recording, which nothing in the engine does.
 - Writing an adapter for a tool or a model whose license the engine cannot hold.
 - Answering what installing a plugin does to the license of what is built.
 
@@ -35,9 +36,12 @@ to a cut), use the `constructive-media` skill in the engine's repository.
 | [`seedvc-conversion`](../../../plugins/seedvc-conversion) | `voice_conversion` | `seedvc` | Seed-VC | GPL-3.0-only |
 | [`ltx-video`](../../../plugins/ltx-video) | `video` | `ltx` | LTX-Video | Code MIT; the model under Lightricks' terms |
 | [`demucs-separation`](../../../plugins/demucs-separation) | `separation` | `demucs` | Demucs | Code MIT; the weights for research only |
+| [`latentsync-lipsync`](../../../plugins/latentsync-lipsync) | `lip_sync` | `latentsync` | LatentSync | Code MIT; the weights under use restrictions, the face models for non-commercial research |
 
 Each wraps the real library, which it installs as a dependency. Nothing is
-reimplemented here.
+reimplemented here. The one exception is `latentsync-lipsync`: LatentSync is
+not a package, so the plugin installs none of it and runs a checkout of it
+with that checkout's own Python.
 
 ## Install, choose, check
 
@@ -49,6 +53,7 @@ pip install ./plugins/ultralytics-detection
 pip install ./plugins/seedvc-conversion      # Python 3.11 or 3.12 only
 pip install ./plugins/ltx-video              # about 26 GB of weights when first used
 pip install ./plugins/demucs-separation      # about 84 MB of weights when first used
+pip install ./plugins/latentsync-lipsync     # and a checkout of LatentSync; about 6 GB of weights when first used
 
 media adapters   # every slot, what can fill it, its license and where it came from
 ```
@@ -62,12 +67,14 @@ export CONSTRUCTIVE_MEDIA_MODEL_DETECTION=yolo11n    # a name Ultralytics publis
 export CONSTRUCTIVE_MEDIA_ADAPTER_VOICE_CONVERSION=seedvc
 export CONSTRUCTIVE_MEDIA_ADAPTER_VIDEO=ltx          # or --adapter ltx, for one piece
 export CONSTRUCTIVE_MEDIA_ADAPTER_SEPARATION=demucs  # or --adapter demucs, for one recording
+export CONSTRUCTIVE_MEDIA_ADAPTER_LIP_SYNC=latentsync # or --adapter latentsync, for one video
 ```
 
 `media adapters` marks the adapter in use with `*`. Unset the variable to go back
 to the engine's own. The engine has none of its own for `voice_conversion`:
 `media revoice` and `media talk --quick` work only with a plugin chosen. It has
-none for `separation` either: `media separate` works only with one.
+none for `separation` either: `media separate` works only with one. Nor for
+`lip_sync`: `media lipsync` works only with one.
 
 ## Voice conversion
 
@@ -158,6 +165,56 @@ CONSTRUCTIVE_MEDIA_EXTRA_SEPARATION='{"parts": "all"}' media separate song.wav p
 - **The recording is somebody's, and so is the voice in it.** Pulling a
   voice out of a song gives nobody the right to use either.
 
+## A face made to say a recording
+
+```sh
+export CONSTRUCTIVE_MEDIA_EXTRA_LIP_SYNC='{"repo": "~/LatentSync"}'
+media lipsync face.mp4 line.wav out/face-says-line.mp4 --adapter latentsync
+```
+
+- **Whose face is it?** Ask first. A face a model made is fine. A real
+  person's face needs that person's yes to these words; without it, do not
+  do it, whoever asks and whatever for. The weights' terms forbid false
+  content made to harm somebody.
+- **Say what it is under before setting it up.** The plugin's code is MIT
+  and LatentSync's is Apache-2.0. The weights are tagged Open RAIL++-M, which
+  lists uses they may not be put to. The InsightFace models that find the
+  face are, in their makers' words, "for non-commercial research purposes
+  only", and LatentSync does not run without them. The plugin's README has
+  each in its makers' words. Describe the terms; do not rule on whether
+  somebody's use is allowed, and do not reach for this plugin for work that
+  is plainly commercial without the person knowing.
+- **It installs nothing of LatentSync.** It needs a checkout
+  (`git clone https://github.com/bytedance/LatentSync`) and a Python in it
+  with what LatentSync needs, at `.venv` or named with `python`. The
+  plugin's README has the list that installed on Apple silicon;
+  LatentSync's own `requirements.txt` is for an NVIDIA GPU. Do not edit the
+  checkout, and do not install LatentSync's requirements into the engine's
+  environment.
+- **It fetches about 6 GB the first time, and uses about 20 GB of memory.**
+  Check the disk and say so before the first run. Do not call it hung.
+- **About half a minute for each second of speech** on Apple silicon: five
+  seconds of speech took 160 s. Sync a line at a time. Every frame is held at
+  once, so a long clip runs out of memory before it runs out of patience.
+- **Turn `deepcache` on once it has been looked at.** `"deepcache": true` in
+  the options took the same five seconds in 84 s, and the frames could not be
+  told apart from the slow run's. It needs the DeepCache package in
+  LatentSync's Python, and says so by name when it is missing.
+- **Start from a face that moves.** A still made into a video comes back
+  stock still but for its mouth. Make the still move first with the `ltx`
+  plugin, a little longer than the line, then sync it.
+- **A face in every frame**, large and turned towards the camera. A frame
+  with none stops it, and the command says so.
+- **A video shorter than the speech is played forwards and then backwards**
+  until the speech ends. The command prints a note when that happened: look
+  at the join.
+- **What comes back is 25 frames a second**, whatever the video was, and as
+  long as the speech.
+- **Look before saying it worked.** Pull a sheet of frames and look at the
+  mouth: `ffmpeg -i OUT -vf fps=2,tile=6x2 -frames:v 1 sheet.png`.
+- **It was tried on Apple silicon only.** On an NVIDIA GPU it makes the
+  calls LatentSync's own script makes; say that it is untried there.
+
 ## Before recommending one
 
 - **Say what the license means.** A program that includes a GPL part is covered
@@ -169,8 +226,9 @@ CONSTRUCTIVE_MEDIA_EXTRA_SEPARATION='{"parts": "all"}' media separate song.wav p
   (`yolo settings sync=False`). The engine sends nothing.
 - **The engine does not need pedalboard or Ultralytics.** Its own effects run
   through `ffmpeg` and its own detectors are Apache-2.0. Measure before
-  claiming a plugin is better for the job at hand. Voice conversion and video
-  from a picture are the two things here the engine cannot do without a plugin.
+  claiming a plugin is better for the job at hand. Voice conversion, video
+  from a picture, a voice taken out from over music and a face made to say a
+  recording are the things here the engine cannot do without a plugin.
 
 ## Writing a plugin
 

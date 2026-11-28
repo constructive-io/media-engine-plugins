@@ -22,6 +22,7 @@ installed plugin through an entry point, and works the same without one.
 | [`seedvc-conversion`](./plugins/seedvc-conversion) | `voice_conversion` | `seedvc` | [Seed-VC](https://github.com/Plachtaa/seed-vc) | GPL-3.0-only |
 | [`ltx-video`](./plugins/ltx-video) | `video` | `ltx` | [LTX-Video](https://github.com/Lightricks/LTX-Video) | Code MIT; the model under [Lightricks' terms](./plugins/ltx-video#the-models-terms) |
 | [`demucs-separation`](./plugins/demucs-separation) | `separation` | `demucs` | [Demucs](https://github.com/adefossez/demucs) | Code MIT; the weights [for research only](./plugins/demucs-separation#the-weights-terms) |
+| [`latentsync-lipsync`](./plugins/latentsync-lipsync) | `lip_sync` | `latentsync` | [LatentSync](https://github.com/bytedance/LatentSync) | Code MIT; the weights under use restrictions and the face models [for non-commercial research](./plugins/latentsync-lipsync#the-terms) |
 
 ## Install
 
@@ -34,6 +35,7 @@ pip install ./media-engine-plugins/plugins/ultralytics-detection
 pip install ./media-engine-plugins/plugins/seedvc-conversion       # Python 3.11 or 3.12
 pip install ./media-engine-plugins/plugins/ltx-video               # fetches about 26 GB of weights when first used
 pip install ./media-engine-plugins/plugins/demucs-separation       # fetches about 84 MB of weights when first used
+pip install ./media-engine-plugins/plugins/latentsync-lipsync      # needs a checkout of LatentSync; about 6 GB of weights
 
 media adapters
 ```
@@ -58,6 +60,7 @@ export CONSTRUCTIVE_MEDIA_ADAPTER_DETECTION=ultralytics
 export CONSTRUCTIVE_MEDIA_ADAPTER_VOICE_CONVERSION=seedvc
 export CONSTRUCTIVE_MEDIA_ADAPTER_VIDEO=ltx
 export CONSTRUCTIVE_MEDIA_ADAPTER_SEPARATION=demucs
+export CONSTRUCTIVE_MEDIA_ADAPTER_LIP_SYNC=latentsync
 ```
 
 The first two take the place of an adapter the engine has of its own. The
@@ -78,6 +81,18 @@ over music:
 media separate song.wav parts --adapter demucs     # parts/voice.wav, parts/rest.wav
 ```
 
+The sixth fills one more: without it, `media lipsync` says that nothing
+fills the slot. With it, and a checkout of LatentSync that it is told the place of,
+the face in a video is made to say a recording:
+
+```sh
+export CONSTRUCTIVE_MEDIA_EXTRA_LIP_SYNC='{"repo": "~/LatentSync"}'
+media lipsync face.mp4 line.wav out/face-says-line.mp4 --adapter latentsync
+```
+
+It is the one plugin here that installs nothing of the tool it drives:
+LatentSync is run where it was cloned, by a Python of its own.
+
 ## Licenses
 
 There is no license for the repository as a whole. Each plugin is a separate
@@ -90,8 +105,8 @@ Installing a plugin does not change the engine's license. It does change what
 you are running: a program that includes a GPL or AGPL part is covered by those
 terms when you pass it on, and the AGPL extends that to people who use it over
 a network. A model's terms are about the model and what it is used for: some
-forbid uses outright, some are for research alone, and some ask larger
-companies to pay. Read the license of any plugin you install, and the terms of
+forbid uses outright, some are for research alone, some are for
+non-commercial use, and some ask larger companies to pay. Read the license of any plugin you install, and the terms of
 any model it fetches, before you ship what you build with it. This is a
 description, not legal advice.
 
