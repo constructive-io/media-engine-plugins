@@ -5,26 +5,25 @@
 </p>
 
 <p align="center" width="100%">
-  Adapters for <a href="https://github.com/constructive-io/media-engine">Constructive Media</a> whose tools, or the models they run, are not MIT, Apache-2.0 or BSD licensed.
+  Adapters for <a href="https://github.com/constructive-io/media-engine">Constructive Media</a>, each a plugin you choose to install.
 </p>
 
-Constructive Media is MIT licensed, and everything it contains or needs is MIT,
-Apache-2.0 or BSD. Some tools worth using are not: a library under the GPL, or
-a model its makers publish under terms of their own. An adapter for one of them
-lives here, as a package of its own that says what it is under and that you
-choose to install. The engine never imports any of them by name: it finds an
-installed plugin through an entry point, and works the same without one.
+A plugin fills one of the engine's slots with another tool: a rack of
+effects, a detector, a voice converter, a model that makes video. Each is a
+package of its own that you choose to install. The engine never imports any of
+them by name: it finds an installed plugin through an entry point, and works
+the same without one.
 
 ## Features
 
-* 🔌 **Pluggable by slot** — each plugin fills one adapter slot of the engine, and `media adapters` lists it beside the built-in adapters with its license and the package it came from
+* 🔌 **Pluggable by slot** — each plugin fills one adapter slot of the engine, and `media adapters` lists it beside the built-in adapters, with the package it came from
 * 🙋 **Yours to choose** — a plugin is never the default: `CONSTRUCTIVE_MEDIA_ADAPTER_<SLOT>` chooses it, and installing one changes nothing until then
-* 🎛️ **[pedalboard-effects](./plugins/pedalboard-effects)** — fills `effects`: the reverb, delay, compression and gain a `.conv` script asks for in `media say`, through pedalboard; GPL-3.0-only
-* 🔍 **[ultralytics-detection](./plugins/ultralytics-detection)** — fills `detection`: Ultralytics YOLO detectors for `media detect`; the code and the models are AGPL-3.0
-* 🗣️ **[seedvc-conversion](./plugins/seedvc-conversion)** — fills `voice_conversion`: `media revoice` says a recording again in another voice, and `media talk --voice WHO --quick NAME` answers in a persona's voice; the code and the weights are GPL-3.0
-* 🎞️ **[ltx-video](./plugins/ltx-video)** — fills `video`: a still made to move, with `media generate video "…" --from PICTURE --adapter ltx`; the code is MIT, the model under Lightricks' terms
-* 🎤 **[demucs-separation](./plugins/demucs-separation)** — fills `separation`: `media separate` takes a voice out from over music; the code is MIT, the weights for research only
-* 👄 **[latentsync-lipsync](./plugins/latentsync-lipsync)** — fills `lip_sync`: `media lipsync` makes the face in a video say a recording; the code is MIT, the weights under use restrictions, the face models for non-commercial research
+* 🎛️ **[pedalboard-effects](./plugins/pedalboard-effects)** — fills `effects`: the reverb, delay, compression and gain a `.conv` script asks for in `media say`, through pedalboard
+* 🔍 **[ultralytics-detection](./plugins/ultralytics-detection)** — fills `detection`: Ultralytics YOLO detectors for `media detect`
+* 🗣️ **[seedvc-conversion](./plugins/seedvc-conversion)** — fills `voice_conversion`: `media revoice` says a recording again in another voice, and `media talk --voice WHO --quick NAME` answers in a persona's voice
+* 🎞️ **[ltx-video](./plugins/ltx-video)** — fills `video`: a still made to move, with `media generate video "…" --from PICTURE --adapter ltx`
+* 🎤 **[demucs-separation](./plugins/demucs-separation)** — fills `separation`: `media separate` takes a voice out from over music
+* 👄 **[latentsync-lipsync](./plugins/latentsync-lipsync)** — fills `lip_sync`: `media lipsync` makes the face in a video say a recording
 * 🧩 **[Write your own](#write-your-own-plugin)** — an ordinary Python package with an entry point in the `constructive_media.adapters` group; no change to the engine is needed
 
 ## The plugins
@@ -111,7 +110,7 @@ LatentSync is run where it was cloned, by a Python of its own.
 
 There is no license for the repository as a whole. Each plugin is a separate
 package under the license in its own folder. For a plugin that drives a
-copyleft library, that is the library's license. For one that runs a model
+library, that is the library's license. For one that runs a model
 published under terms of its own, the code is MIT and the model's terms are
 named on the adapter and set out in the plugin's README.
 
