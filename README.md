@@ -15,6 +15,20 @@ lives here, as a package of its own that says what it is under and that you
 choose to install. The engine never imports any of them by name: it finds an
 installed plugin through an entry point, and works the same without one.
 
+## Features
+
+* 🔌 **Pluggable by slot** — each plugin fills one adapter slot of the engine, and `media adapters` lists it beside the built-in adapters with its license and the package it came from
+* 🙋 **Yours to choose** — a plugin is never the default: `CONSTRUCTIVE_MEDIA_ADAPTER_<SLOT>` chooses it, and installing one changes nothing until then
+* 🎛️ **[pedalboard-effects](./plugins/pedalboard-effects)** — fills `effects`: the reverb, delay, compression and gain a `.conv` script asks for in `media say`, through pedalboard; GPL-3.0-only
+* 🔍 **[ultralytics-detection](./plugins/ultralytics-detection)** — fills `detection`: Ultralytics YOLO detectors for `media detect`; the code and the models are AGPL-3.0
+* 🗣️ **[seedvc-conversion](./plugins/seedvc-conversion)** — fills `voice_conversion`: `media revoice` says a recording again in another voice, and `media talk --voice WHO --quick NAME` answers in a persona's voice; the code and the weights are GPL-3.0
+* 🎞️ **[ltx-video](./plugins/ltx-video)** — fills `video`: a still made to move, with `media generate video "…" --from PICTURE --adapter ltx`; the code is MIT, the model under Lightricks' terms
+* 🎤 **[demucs-separation](./plugins/demucs-separation)** — fills `separation`: `media separate` takes a voice out from over music; the code is MIT, the weights for research only
+* 👄 **[latentsync-lipsync](./plugins/latentsync-lipsync)** — fills `lip_sync`: `media lipsync` makes the face in a video say a recording; the code is MIT, the weights under use restrictions, the face models for non-commercial research
+* 🧩 **[Write your own](#write-your-own-plugin)** — an ordinary Python package with an entry point in the `constructive_media.adapters` group; no change to the engine is needed
+
+## The plugins
+
 | Plugin | Fills the slot | Chosen as | Tool | License |
 | --- | --- | --- | --- | --- |
 | [`pedalboard-effects`](./plugins/pedalboard-effects) | `effects` | `pedalboard` | [pedalboard](https://github.com/spotify/pedalboard) | GPL-3.0-only |
@@ -113,13 +127,17 @@ description, not legal advice.
 No model weights, voices, audio or footage are committed here. A model a plugin
 downloads comes from whoever publishes it, under their license.
 
-## Writing a plugin
+## Write your own plugin
 
 A plugin is an ordinary Python package that declares an entry point in the
 `constructive_media.adapters` group and returns its adapters, each with its
 slot, its name and its license stated honestly. What an adapter must do is set
 by its slot. Both are described in the engine's
-[docs/ADAPTERS.md](https://github.com/constructive-io/media-engine/blob/main/docs/ADAPTERS.md).
+[docs/ADAPTERS.md](https://github.com/constructive-io/media-engine/blob/main/docs/ADAPTERS.md#writing-a-plugin).
+
+Any slot can be filled this way, and a plugin need not live in this repository:
+install the package next to `constructive-media` and `media adapters` lists it. A
+plugin cannot replace a built-in adapter.
 
 ## Tests
 
