@@ -1,24 +1,25 @@
 ---
 name: media-engine-plugins
-description: Plugins for Constructive Media — adapters for tools under copyleft licenses (GPL, AGPL), each a package of its own. Use when asked to "install a media engine plugin", "use pedalboard effects", "use Ultralytics YOLO for detection", "use Seed-VC", "convert a voice", "say a recording again in another voice", "install voice conversion", "switch the effects backend", "switch the detector", "write a plugin for the media engine", "add an adapter", or when a tool somebody wants is not MIT, Apache-2.0 or BSD licensed.
+description: Plugins for Constructive Media — adapters for tools under copyleft licenses (GPL, AGPL) and for models published under terms of their own, each a package of its own. Use when asked to "install a media engine plugin", "use pedalboard effects", "use Ultralytics YOLO for detection", "use Seed-VC", "convert a voice", "say a recording again in another voice", "install voice conversion", "make a still move", "animate a picture", "image to video", "use LTX-Video", "switch the effects backend", "switch the detector", "write a plugin for the media engine", "add an adapter", or when a tool or a model somebody wants is not MIT, Apache-2.0 or BSD licensed.
 compatibility: Python 3.11+, with constructive-media installed in the same environment
 metadata:
   author: constructive-io
-  version: "0.2.0"
+  version: "0.3.0"
 ---
 
 # Media engine plugins
 
 [Constructive Media](https://github.com/constructive-io/media-engine) is
 MIT licensed and contains only MIT, Apache-2.0 and BSD code. A tool under
-another license is driven by a plugin from this repository: a separate package,
-under that tool's license, which the engine finds once it is installed and
-uses only when it is chosen.
+another license, or a model published under terms of its own, is driven by a
+plugin from this repository: a separate package that says what it is under,
+which the engine finds once it is installed and uses only when it is chosen.
 
 ## When to apply
 
 - Installing a plugin, choosing it, or checking which adapter a slot is using.
-- Writing an adapter for a tool whose license the engine cannot hold.
+- Making a still move, which the engine's own video adapter does not do.
+- Writing an adapter for a tool or a model whose license the engine cannot hold.
 - Answering what installing a plugin does to the license of what is built.
 
 For using the engine itself (setting it up, a `.conv` script to sound, footage
@@ -31,6 +32,7 @@ to a cut), use the `constructive-media` skill in the engine's repository.
 | [`pedalboard-effects`](../../../plugins/pedalboard-effects) | `effects` | `pedalboard` | pedalboard | GPL-3.0-only |
 | [`ultralytics-detection`](../../../plugins/ultralytics-detection) | `detection` | `ultralytics` | Ultralytics YOLO | AGPL-3.0-only |
 | [`seedvc-conversion`](../../../plugins/seedvc-conversion) | `voice_conversion` | `seedvc` | Seed-VC | GPL-3.0-only |
+| [`ltx-video`](../../../plugins/ltx-video) | `video` | `ltx` | LTX-Video | Code MIT; the model under Lightricks' terms |
 
 Each wraps the real library, which it installs as a dependency. Nothing is
 reimplemented here.
@@ -43,6 +45,7 @@ Into the environment the engine is installed in:
 pip install ./plugins/pedalboard-effects
 pip install ./plugins/ultralytics-detection
 pip install ./plugins/seedvc-conversion      # Python 3.11 or 3.12 only
+pip install ./plugins/ltx-video              # about 26 GB of weights when first used
 
 media adapters   # every slot, what can fill it, its license and where it came from
 ```
@@ -54,6 +57,7 @@ export CONSTRUCTIVE_MEDIA_ADAPTER_EFFECTS=pedalboard
 export CONSTRUCTIVE_MEDIA_ADAPTER_DETECTION=ultralytics
 export CONSTRUCTIVE_MEDIA_MODEL_DETECTION=yolo11n    # a name Ultralytics publishes, or a model file
 export CONSTRUCTIVE_MEDIA_ADAPTER_VOICE_CONVERSION=seedvc
+export CONSTRUCTIVE_MEDIA_ADAPTER_VIDEO=ltx          # or --adapter ltx, for one piece
 ```
 
 `media adapters` marks the adapter in use with `*`. Unset the variable to go back
@@ -83,18 +87,54 @@ media talk --voice ada --quick af_heart                     # a quick voice, sai
 - **Two people's say-so.** The voice is somebody's and so is the recording
   that is said again. Do not convert into a voice without its owner's yes.
 
+## A still made to move
+
+```sh
+media generate video "fog drifting over the water, the boat rocking gently" --from harbour.png --adapter ltx
+media generate video "a paper lantern swinging under a porch in light rain" --seconds 4 --adapter ltx
+```
+
+- **Say what the model is under before installing it.** The code is MIT. The
+  model is Lightricks', under terms that differ by version: 0.9 and 0.9.1 are
+  for research alone and this adapter does not run them; the default, 0.9.5,
+  forbids a list of uses and asks that what it makes be said to be machine
+  made; 0.9.6 and later point entities with at least $10,000,000 of annual
+  revenue to a paid license. The plugin's README has the table and the links.
+  Describe the terms; do not rule on whether somebody's use is allowed.
+- **It fetches about 26 GB the first time, and needs about 29 GB of memory.**
+  Check the disk and say so before the first run. Do not call it hung.
+- **Two seconds take about a minute** on Apple silicon and four take about
+  two, loading included. A piece is 24 frames a second, with no sound.
+- **Describe movement, not the picture.** The picture is the first frame; the
+  words say what happens after it. Expect gentle movement: fog, water, a slow
+  push of the camera.
+- **No `--size` with a picture** unless a size is wanted: the piece takes the
+  picture's own shape. A size is filled and cropped, never squashed. Sides
+  are multiples of 32.
+- **A clean picture barely moves**, so the adapter roughens it first, as a
+  video encoder would. If a piece from a picture holds still, raise `rough`
+  (default 12, up to 31) in `CONSTRUCTIVE_MEDIA_EXTRA_VIDEO` before raising
+  `steps`.
+- **Its settings are read only when it is the adapter chosen** with
+  `CONSTRUCTIVE_MEDIA_ADAPTER_VIDEO=ltx`. With `--adapter ltx` alone it runs
+  on its defaults.
+- **Somebody's picture is somebody's.** The terms forbid impersonating a
+  person without their consent. Do not make a picture of a real person move
+  without their yes.
+
 ## Before recommending one
 
 - **Say what the license means.** A program that includes a GPL part is covered
   by the GPL when it is passed on. The AGPL extends that to people who use it
-  over a network. Tell the person before installing, and do not install a
-  plugin as a side effect of something else.
+  over a network. A model's terms can forbid uses, or commercial use, whoever
+  runs it. Tell the person before installing, and do not install a plugin as a
+  side effect of something else.
 - **Ultralytics may send usage statistics** unless that is turned off
   (`yolo settings sync=False`). The engine sends nothing.
 - **The engine does not need pedalboard or Ultralytics.** Its own effects run
   through `ffmpeg` and its own detectors are Apache-2.0. Measure before
-  claiming a plugin is better for the job at hand. Voice conversion is the one
-  thing here the engine cannot do without a plugin.
+  claiming a plugin is better for the job at hand. Voice conversion and video
+  from a picture are the two things here the engine cannot do without a plugin.
 
 ## Writing a plugin
 
@@ -102,7 +142,7 @@ One folder under `plugins/`, one package, one license:
 
 ```
 plugins/my-tool/
-├── LICENSE              # the license of the tool it drives
+├── LICENSE              # the license of the tool it drives (MIT, where only the model has terms)
 ├── README.md
 ├── pyproject.toml
 ├── media_engine_my_tool/__init__.py
@@ -132,7 +172,7 @@ def adapters():
             slot="effects",
             name="my-tool",
             factory=lazy("media_engine_my_tool:MyEffects"),
-            license="GPL-3.0-only",     # the SPDX identifier, stated honestly
+            license="GPL-3.0-only",     # the SPDX identifier, stated honestly; a model's own terms as LicenseRef-…
             summary="What it does, in a line",
         )
     ]

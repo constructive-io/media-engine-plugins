@@ -5,20 +5,22 @@
 </p>
 
 <p align="center" width="100%">
-  Adapters for <a href="https://github.com/constructive-io/media-engine">Constructive Media</a> whose tools carry a copyleft license.
+  Adapters for <a href="https://github.com/constructive-io/media-engine">Constructive Media</a> whose tools, or the models they run, are not MIT, Apache-2.0 or BSD licensed.
 </p>
 
 Constructive Media is MIT licensed, and everything it contains or needs is MIT,
-Apache-2.0 or BSD. Some tools worth using are not. An adapter for one of them
-lives here, under that tool's license, as a package of its own that you choose
-to install. The engine never imports any of them by name: it finds an installed
-plugin through an entry point, and works the same without one.
+Apache-2.0 or BSD. Some tools worth using are not: a library under the GPL, or
+a model its makers publish under terms of their own. An adapter for one of them
+lives here, as a package of its own that says what it is under and that you
+choose to install. The engine never imports any of them by name: it finds an
+installed plugin through an entry point, and works the same without one.
 
 | Plugin | Fills the slot | Chosen as | Tool | License |
 | --- | --- | --- | --- | --- |
 | [`pedalboard-effects`](./plugins/pedalboard-effects) | `effects` | `pedalboard` | [pedalboard](https://github.com/spotify/pedalboard) | GPL-3.0-only |
 | [`ultralytics-detection`](./plugins/ultralytics-detection) | `detection` | `ultralytics` | [Ultralytics YOLO](https://github.com/ultralytics/ultralytics) | AGPL-3.0-only |
 | [`seedvc-conversion`](./plugins/seedvc-conversion) | `voice_conversion` | `seedvc` | [Seed-VC](https://github.com/Plachtaa/seed-vc) | GPL-3.0-only |
+| [`ltx-video`](./plugins/ltx-video) | `video` | `ltx` | [LTX-Video](https://github.com/Lightricks/LTX-Video) | Code MIT; the model under [Lightricks' terms](./plugins/ltx-video#the-models-terms) |
 
 ## Install
 
@@ -29,6 +31,7 @@ pip install "./constructive-media[all]"
 pip install ./media-engine-plugins/plugins/pedalboard-effects
 pip install ./media-engine-plugins/plugins/ultralytics-detection
 pip install ./media-engine-plugins/plugins/seedvc-conversion       # Python 3.11 or 3.12
+pip install ./media-engine-plugins/plugins/ltx-video               # fetches about 26 GB of weights when first used
 
 media adapters
 ```
@@ -51,23 +54,35 @@ it, by slot:
 export CONSTRUCTIVE_MEDIA_ADAPTER_EFFECTS=pedalboard
 export CONSTRUCTIVE_MEDIA_ADAPTER_DETECTION=ultralytics
 export CONSTRUCTIVE_MEDIA_ADAPTER_VOICE_CONVERSION=seedvc
+export CONSTRUCTIVE_MEDIA_ADAPTER_VIDEO=ltx
 ```
 
 The first two take the place of an adapter the engine has of its own. The
 third fills a slot the engine leaves empty: without it, `media revoice` and
-`media talk --quick` say what to install.
+`media talk --quick` say what to install. The fourth does something the
+engine's own video adapter does not, which is to start from a picture, and it
+can be asked for one piece at a time instead:
+
+```sh
+media generate video "fog drifting over the water" --from harbour.png --adapter ltx
+```
 
 ## Licenses
 
 There is no license for the repository as a whole. Each plugin is a separate
-package under the license in its own folder, the same one as the tool it
-drives.
+package under the license in its own folder. For a plugin that drives a
+copyleft library, that is the library's license. For one that runs a model
+published under terms of its own, the code is MIT and the model's terms are
+named on the adapter and set out in the plugin's README.
 
 Installing a plugin does not change the engine's license. It does change what
 you are running: a program that includes a GPL or AGPL part is covered by those
 terms when you pass it on, and the AGPL extends that to people who use it over
-a network. Read the license of any plugin you install before you ship what you
-build with it. This is a description, not legal advice.
+a network. A model's terms are about the model and what it is used for: some
+forbid uses outright, some are for research alone, and some ask larger
+companies to pay. Read the license of any plugin you install, and the terms of
+any model it fetches, before you ship what you build with it. This is a
+description, not legal advice.
 
 No model weights, voices, audio or footage are committed here. A model a plugin
 downloads comes from whoever publishes it, under their license.
